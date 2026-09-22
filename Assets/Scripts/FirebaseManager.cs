@@ -8,6 +8,8 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseApp app;
     private FirebaseAuth auth;
 
+    public FirebaseAuth Auth => auth;
+
     private void Start()
     {
         CheckFirebaseDependencies();
