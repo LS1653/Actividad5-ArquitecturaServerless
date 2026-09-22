@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "148809716246",
+    "project_id": "unityfirebaseactividad5",
+    "storage_bucket": "unityfirebaseactividad5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148809716246:android:fc90bb734c41e2f0199b37",
+        "android_client_info": {
+          "package_name": "com.ls1653.actividad5firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUPZSlroFk0Yrgekxs1rfLiu2ReKkpEaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
