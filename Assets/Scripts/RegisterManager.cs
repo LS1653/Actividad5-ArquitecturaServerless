@@ -31,6 +31,51 @@ public class RegisterManager : MonoBehaviour
             return;
         }
 
+        messageText.text = "Comprobando username...";
+
+        CheckUsername(username, email, password);
+    }
+
+    private void CheckUsername(string username, string email, string password)
+    {
+        DatabaseReference usernameReference =
+            FirebaseDatabase.DefaultInstance
+                .GetReference("usernames")
+                .Child(username);
+
+        usernameReference.GetValueAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    messageText.text = "Comprobación cancelada.";
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    messageText.text = "No se pudo comprobar el username.";
+                    Debug.LogError(task.Exception);
+                    return;
+                }
+
+                DataSnapshot snapshot = task.Result;
+
+                if (snapshot.Exists)
+                {
+                    messageText.text = "Ese username ya está ocupado.";
+                    return;
+                }
+
+                CreateFirebaseUser(username, email, password);
+            });
+    }
+
+    private void CreateFirebaseUser(
+        string username,
+        string email,
+        string password)
+    {
         messageText.text = "Registrando...";
 
         FirebaseAuth auth = firebaseManager.Auth;
@@ -57,7 +102,36 @@ public class RegisterManager : MonoBehaviour
                 Debug.Log("UID: " + user.UserId);
                 Debug.Log("Email: " + user.Email);
 
-                SaveUserData(user.UserId, username);
+                SaveUsername(user.UserId, username);
+            });
+    }
+
+    private void SaveUsername(string uid, string username)
+    {
+        DatabaseReference usernameReference =
+            FirebaseDatabase.DefaultInstance
+                .GetReference("usernames")
+                .Child(username);
+
+        usernameReference.SetValueAsync(uid)
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    messageText.text = "No se pudo guardar el username.";
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    messageText.text = "Error al guardar el username.";
+                    Debug.LogError(task.Exception);
+                    return;
+                }
+
+                Debug.Log("Username guardado correctamente.");
+
+                SaveUserData(uid, username);
             });
     }
 
