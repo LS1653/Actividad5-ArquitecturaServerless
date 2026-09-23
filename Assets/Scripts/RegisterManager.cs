@@ -1,4 +1,5 @@
 using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Extensions;
 using TMPro;
 using UnityEngine;
@@ -56,6 +57,43 @@ public class RegisterManager : MonoBehaviour
                 Debug.Log("UID: " + user.UserId);
                 Debug.Log("Email: " + user.Email);
 
+                SaveUserData(user.UserId, username);
+            });
+    }
+
+    private void SaveUserData(string uid, string username)
+    {
+        DatabaseReference userReference =
+            FirebaseDatabase.DefaultInstance
+                .GetReference("users")
+                .Child(uid);
+
+        UserData userData = new UserData
+        {
+            username = username,
+            score = 0
+        };
+
+        string json = JsonUtility.ToJson(userData);
+
+        userReference.SetRawJsonValueAsync(json)
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    messageText.text = "No se pudo guardar el usuario.";
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    messageText.text = "Error al guardar los datos.";
+                    Debug.LogError(task.Exception);
+                    return;
+                }
+
+                Debug.Log("Datos del usuario guardados correctamente.");
+
                 messageText.text = "Registro exitoso.";
 
                 registerPanel.SetActive(false);
@@ -68,4 +106,11 @@ public class RegisterManager : MonoBehaviour
         registerPanel.SetActive(false);
         loginPanel.SetActive(true);
     }
+}
+
+[System.Serializable]
+public class UserData
+{
+    public string username;
+    public int score;
 }
