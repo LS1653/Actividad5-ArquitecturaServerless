@@ -13,6 +13,9 @@ public class RegisterManager : MonoBehaviour
 
     [SerializeField] private TMP_Text messageText;
 
+    [SerializeField] private GameObject registerPanel;
+    [SerializeField] private GameObject loginPanel;
+
     public void Register()
     {
         string username = usernameInput.text.Trim();
@@ -54,6 +57,15 @@ public class RegisterManager : MonoBehaviour
                 Debug.Log("Email: " + user.Email);
 
                 messageText.text = "Registro exitoso.";
+
+                registerPanel.SetActive(false);
+                loginPanel.SetActive(true);
             });
+    }
+
+    public void GoToLogin()
+    {
+        registerPanel.SetActive(false);
+        loginPanel.SetActive(true);
     }
 }

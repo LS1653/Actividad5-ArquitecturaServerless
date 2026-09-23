@@ -12,6 +12,10 @@ public class LoginManager : MonoBehaviour
 
     [SerializeField] private TMP_Text messageText;
 
+    [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject registerPanel;
+    [SerializeField] private GameObject gamePanel;
+
     public void Login()
     {
         string email = emailInput.text.Trim();
@@ -51,6 +55,20 @@ public class LoginManager : MonoBehaviour
                 Debug.Log("Email: " + user.Email);
 
                 messageText.text = "Inicio de sesión exitoso.";
+
+                GoToGame();
             });
+    }
+
+    public void GoToRegister()
+    {
+        loginPanel.SetActive(false);
+        registerPanel.SetActive(true);
+    }
+
+    private void GoToGame()
+    {
+        loginPanel.SetActive(false);
+        gamePanel.SetActive(true);
     }
 }
