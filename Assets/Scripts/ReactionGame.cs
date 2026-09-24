@@ -154,4 +154,19 @@ public class ReactionGame : MonoBehaviour
     
         UserDataManager.Instance.SaveScore(uid, score);
     }
+
+    public void RestartGame()
+    {
+        score = 0;
+        currentScale = initialScale;
+    
+        gameFinished = false;
+    
+        target.localScale = Vector3.one * currentScale;
+        target.gameObject.SetActive(true);
+    
+        gameOverPanel.SetActive(false);
+    
+        MoveTarget();
+    }
 }

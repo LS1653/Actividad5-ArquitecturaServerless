@@ -130,4 +130,10 @@ public class UserDataManager : MonoBehaviour
                 );
             });
     }
+
+    public void ClearUserData()
+    {
+        CurrentUserId = null;
+        CurrentPlayer = null;
+    }
 }

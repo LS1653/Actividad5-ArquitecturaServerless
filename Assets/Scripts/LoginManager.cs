@@ -14,6 +14,8 @@ public class LoginManager : MonoBehaviour
 
     [SerializeField] private TMP_Text messageText;
 
+    [SerializeField] private ReactionGame reactionGame;
+
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject registerPanel;
     [SerializeField] private GameObject gamePanel;
@@ -58,6 +60,8 @@ public class LoginManager : MonoBehaviour
 
                 userDataManager = UserDataManager.Instance;
                 userDataManager.LoadUserData(user.UserId);
+
+                reactionGame.RestartGame();
 
                 messageText.text = "Inicio de sesión exitoso.";
 
