@@ -10,6 +10,8 @@ public class UserDataManager : MonoBehaviour
 
     private DatabaseReference databaseReference;
 
+    public string CurrentUserId { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -29,8 +31,12 @@ public class UserDataManager : MonoBehaviour
 
     public void LoadUserData(string uid)
     {
-        // Se corrigió GetReference por Child
-        DatabaseReference userReference = databaseReference.Child("users").Child(uid);
+        CurrentUserId = uid;
+
+        DatabaseReference userReference =
+            databaseReference
+                .Child("users")
+                .Child(uid);
 
         userReference.GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -55,8 +61,11 @@ public class UserDataManager : MonoBehaviour
                 return;
             }
 
-            string username = snapshot.Child("username").Value.ToString();
-            int score = int.Parse(snapshot.Child("score").Value.ToString());
+            string username =
+                snapshot.Child("username").Value.ToString();
+
+            int score =
+                int.Parse(snapshot.Child("score").Value.ToString());
 
             CurrentPlayer = new PlayerData
             {
@@ -68,5 +77,57 @@ public class UserDataManager : MonoBehaviour
             Debug.Log("Username: " + CurrentPlayer.username);
             Debug.Log("Score: " + CurrentPlayer.score);
         });
+    }
+
+    public void SaveScore(string uid, int score)
+    {
+        if (CurrentPlayer == null)
+        {
+            Debug.LogError("No hay datos del jugador cargados.");
+            return;
+        }
+
+        int bestScore = CurrentPlayer.score;
+
+        if (score <= bestScore)
+        {
+            Debug.Log(
+                "La puntuación " + score +
+                " no supera la mejor puntuación: " + bestScore
+            );
+
+            return;
+        }
+
+        DatabaseReference scoreReference =
+            databaseReference
+                .Child("users")
+                .Child(uid)
+                .Child("score");
+
+        scoreReference.SetValueAsync(score)
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError(
+                        "El guardado del score fue cancelado."
+                    );
+                    return;
+                }
+
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Error al guardar el score.");
+                    Debug.LogError(task.Exception);
+                    return;
+                }
+
+                CurrentPlayer.score = score;
+
+                Debug.Log(
+                    "Nueva mejor puntuación guardada: " + score
+                );
+            });
     }
 }
