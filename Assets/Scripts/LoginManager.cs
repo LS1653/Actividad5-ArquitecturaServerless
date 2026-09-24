@@ -10,6 +10,8 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private TMP_InputField emailInput;
     [SerializeField] private TMP_InputField passwordInput;
 
+    private UserDataManager userDataManager;
+
     [SerializeField] private TMP_Text messageText;
 
     [SerializeField] private GameObject loginPanel;
@@ -53,6 +55,9 @@ public class LoginManager : MonoBehaviour
                 Debug.Log("Inicio de sesión exitoso.");
                 Debug.Log("UID: " + user.UserId);
                 Debug.Log("Email: " + user.Email);
+
+                userDataManager = UserDataManager.Instance;
+                userDataManager.LoadUserData(user.UserId);
 
                 messageText.text = "Inicio de sesión exitoso.";
 
