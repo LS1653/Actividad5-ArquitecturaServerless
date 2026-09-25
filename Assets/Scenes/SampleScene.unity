@@ -562,7 +562,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.39200002}
   m_AnchorMax: {x: 0.5, y: 0.39200002}
   m_AnchoredPosition: {x: -0.9, y: 0.5}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125763898
 MonoBehaviour:
@@ -1479,7 +1479,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.39200002}
   m_AnchorMax: {x: 0.5, y: 0.39200002}
   m_AnchoredPosition: {x: -0.9, y: 0.5}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &241427439
 GameObject:
@@ -7498,6 +7498,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaderboardPanel: {fileID: 302008940}
   gameOverPanel: {fileID: 1485608199}
+  content: {fileID: 1186674351}
+  rowPrefab: {fileID: 2310947086019347300, guid: fd039159b0647ed47ae383e39881edc1, type: 3}
 --- !u!1 &1772945764
 GameObject:
   m_ObjectHideFlags: 0
